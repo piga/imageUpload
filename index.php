@@ -23,7 +23,28 @@ else
 	}
 	else
 	{
-		echo "<p>Želiš postati neku sliku.</p>";
+		$formati = [
+			"png" => "image/png",
+			"jpg" => "image/jpg",
+			"jpg" => "image/jpeg",
+			"gif" => "image/gif"
+		];
+		$type = $postana_slika["type"];
+		$dir = "/var/www/html/backend/vježba12/";
+		
+		if(!in_array($type, $formati))
+		{
+			echo "<p>Nije podržan format.</p>";
+		}
+		else
+		{
+			if(!file_exists($dir)) mkdir($dir, 0777, true);
+			$name = basename($postana_slika["name"]);
+			$tmp_name = $postana_slika["tmp_name"];
+			$rez = move_uploaded_file($tmp_name, "$dir.$name") ? "Datoteka je uspješno uploadana." : "Nije uspio upload.";
+			echo $rez;
+		}
+		echo "<p>".$postana_slika['type']."</p>";
 	}
 }
 //echo print_r($_FILES);
